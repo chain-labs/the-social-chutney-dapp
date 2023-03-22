@@ -1,0 +1,269 @@
+.background {
+    background-image: url("../public/beach.png");
+    height: 100vh;
+    width: 100vw;
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: contain;
+    display: flex;
+    justify-content: flex-end;
+    // border: 3px solid goldenrod;
+
+    @media screen and (max-width: 1024px) {
+        background-size: cover;
+    }
+}
+
+.hero-container {
+    height: 100vh;
+    width: 800px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url("../public/booty.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.navbar {
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    width: 100vw;
+    padding: 0.8rem 6.4rem;
+    // border: 2px solid rebeccapurple;
+    @media screen and (max-width: 1024px) {
+        padding: 0.4rem;
+    }
+    
+    .logo-box {
+        position: relative;
+        height: 5rem;
+        width: 20rem;
+        margin-right: 1rem;
+        // border: 2px solid olivedrab;
+
+        @media screen and (max-width: 1024px) {
+            height: 3rem;
+        }
+
+        .logo {
+            object-fit: contain;
+
+            @media screen and (max-width: 1024px) {
+                object-fit: cover;
+
+            }
+        }
+
+    }
+
+    .twitter-box, .etherscan-box {
+        position: relative;
+        height: 5rem;
+        width:5rem;
+        margin-left: 1rem;
+        cursor: pointer;
+        // border: 2px solid tomato;
+
+        @media screen and (max-width: 1024px) {
+            margin-left: 0;
+            height: 3rem;
+            width: 4rem;
+        }
+    }
+    
+}
+
+.mint-section {
+    // border: 3px solid brown;
+    height: 100vh;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media screen and (max-width: 1024px) {
+        width: 100vw;
+        padding-left: 0;
+    }
+    
+    .supply {
+        text-align: center;
+        // border: 1px solid forestgreen;
+        width: 100%;
+
+        @media screen and (max-width: 1024px) {
+            width: 100vw;
+        }
+
+
+        h4 {
+            @media screen and (max-width: 1024px) {
+                font-size: 12px;
+            }
+        }
+    }
+
+   .mint-container {
+        text-align: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        // border: 1px solid hotpink;
+        width: 49vw;
+
+        @media screen and (max-width: 1024px) {
+            width: 100vw;
+        }
+        .error {
+            color: red;
+        }
+        h5 {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            @media screen and (max-width: 1024px) {
+                width: 100%;
+            }
+        }
+   }
+
+
+    .opensea-btn {
+        position: relative;
+        height: 6rem;
+        width: 30rem;
+        cursor: pointer;
+
+        @media screen and (max-width: 1024px) {
+            width: 90vw;
+        }
+    }
+
+    .connect-btn {
+        @extend .opensea-btn;
+        // border: 1px solid slateblue;
+        align-self: center;
+    }
+
+    .empty-btn-container {
+        position: relative;
+        margin-bottom: 1rem;
+        height: 6rem;
+        width: 30rem;
+
+        @media screen and (max-width: 1024px) {
+            width: 90vw;
+            padding-left: 0;
+
+        }
+    }
+
+    .center-btn {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -30%);
+    }
+
+    .mint-btn{
+        @extend .opensea-btn;
+        // border: 1px solid yellowgreen;
+        
+        @media screen and (max-width: 1024px) {
+            width: 90vw;
+            padding-left: 0;
+            height: 8rem;
+        }
+
+        .bg-box {
+            object-fit: cover;
+
+            @media screen and (max-width: 1024px) {
+                object-fit: contain;
+            }
+        }
+        h2 {
+            position: absolute;
+            z-index: 4;
+            // border: 1px solid blueviolet;
+            @extend .center-btn;
+        }
+    }
+    .mint-input-bg {
+        @extend .empty-btn-container;
+        // border: 2px solid tomato;
+        @media screen and (max-width: 1024px) {
+            width: 90vw;
+            height: 8rem;
+        }
+
+
+        .bg-box {
+            object-fit: cover;
+
+            @media screen and (max-width: 1024px) {
+                object-fit: contain;
+            }
+        }
+        
+        .mint-input {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid transparent;
+            background: none;
+            padding: 17.5px 10px;
+            font-size: 24px;
+            font-weight: 400;
+            color: #000;
+            text-align: center;
+            margin-bottom: 24px;
+            width: 25rem;
+            outline: none;
+            z-index: 3;
+
+            
+            @media screen and (max-width: 768px) {
+                font-size: 20px;
+                width: 90vw;
+                padding: 12px 24px
+            }
+            
+            
+            &::placeholder {
+                color: #888;
+                font-size: 12px;
+                height: 30px;
+
+                @media screen and (max-width: 1024px) {
+                    font-size: 8px;
+                }
+            }
+        }
+    }
+}
+
+.audio-box {
+    @extend .twitter-box;
+    // position: relative;
+    // height: 5rem;
+    // width: 5rem;
+    // margin-left: 1rem;
+
+    // @media screen and (max-width: 1024px) {
+    //     height: 4rem;
+    //     width: 4rem;
+    // }
+
+}
