@@ -7,6 +7,7 @@ import {
   GELATO_API_KEY,
   getChain,
   getNetwork,
+  TEST_NETWORK,
 } from "../../constants";
 import useContract from "../../hooks/useContract";
 import {
@@ -15,6 +16,7 @@ import {
   INPUT_BORDER_COLOR,
   MINT_BUTTON_TEXT,
   TEXT_COLOR,
+  TOKEN_NAME,
 } from "../../settings/constants";
 import Box from "../../components/Box";
 import { GelatoRelay, SponsoredCallRequest } from "@gelatonetwork/relay-sdk";
@@ -208,7 +210,7 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
               setBalance(balance + 1);
               resetMint();
               toast(
-                `🎉 Succesfully minted ${noOfTokens} Token${
+                `🎉 Succesfully claimed ${noOfTokens} ${TOKEN_NAME}${
                   parseInt(noOfTokens) > 1 ? "s" : ""
                 }!//${taskStatus.transactionHash}`
               );
@@ -302,7 +304,11 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
       <If
         condition={balance > 0}
         then={
-          <a href="">
+          <a
+            href={`https://${TEST_NETWORK ? "testnets." : ""}opensea.io/${user}`}
+            target="_blank"
+            rel="noreferrer"
+          >
             <Box
               as="button"
               backgroundColor={BUTTON_COLOR}
