@@ -7,6 +7,10 @@ export const INPUT_BORDER_COLOR = TEXT_COLOR;
 
 export const COLLECTION_NAME = "Flea Marketplace";
 
+export const MINT_BUTTON_TEXT = "Claim Merch";
+
+export const TOKEN_NAME = "Merchandise";
+
 export const SHOW_TOKENS_CLAIMED = true;
 export const SHOW_TOTAL_TOKENS = false;
 

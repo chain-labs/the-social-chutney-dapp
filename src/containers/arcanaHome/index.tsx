@@ -15,6 +15,7 @@ import EtherscanFill from "../../../public/etherscan.svg";
 import {
   Cross,
   DiscordFill,
+  GoogleFill,
   InstagramFill,
   TelegramFill,
   TwitterFill,
@@ -39,6 +40,7 @@ import {
   TELEGRAM_URL,
   TEXT_COLOR,
   TOKEN_COUNTER_COLOR,
+  TOKEN_NAME,
   TWITTER_URL,
 } from "../../settings/constants";
 import If from "../../components/If";
@@ -299,9 +301,7 @@ const ArcanaHome = () => {
               fontSize="1.8rem"
               color={TOKEN_COUNTER_COLOR}
             >
-              {SHOW_TOTAL_TOKENS
-                ? `Tokens Claimed: ${totalSupply}/${maximumTokens}`
-                : `Tokens Claimed: ${totalSupply}`}
+              {`${totalSupply} members have claimed ${TOKEN_NAME}`}
             </Box>
           ) : null}
         </Box>
@@ -312,11 +312,21 @@ const ArcanaHome = () => {
               className="connect-btn"
               onClick={handleConnect}
               style={{
-                backgroundColor: BUTTON_COLOR,
+                backgroundColor: loggingIn ? "#cfcfcf" : BUTTON_COLOR,
                 color: BUTTON_TEXT_COLOR,
               }}
+              disabled={loggingIn}
             >
-              Connect Wallet
+              <If
+                condition={!loggingIn}
+                then={
+                  <Box display="flex" alignItems="center">
+                    <GoogleFill strokeWidth={2} size={32} />
+                    <Box ml="1rem">Login to Claim Merch</Box>
+                  </Box>
+                }
+                else="Logging in..."
+              />
             </Box>
           ) : (
             <Box>

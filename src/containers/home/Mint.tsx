@@ -2,24 +2,31 @@ import { BigNumber, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import If from "../../components/If";
-import { CONTRACT_ADDRESS, GELATO_API_KEY, getChain } from "../../constants";
+import {
+  CONTRACT_ADDRESS,
+  GELATO_API_KEY,
+  getChain,
+  getNetwork,
+} from "../../constants";
 import useContract from "../../hooks/useContract";
 import {
   BUTTON_COLOR,
   BUTTON_TEXT_COLOR,
   INPUT_BORDER_COLOR,
+  MINT_BUTTON_TEXT,
   TEXT_COLOR,
 } from "../../settings/constants";
 import Box from "../../components/Box";
 import { GelatoRelay, SponsoredCallRequest } from "@gelatonetwork/relay-sdk";
 import { delay, getRelayStatus } from "../arcanaHome/utils";
+import { useAuth } from "@arcana/auth-react";
 
 const BUTTON_TEXT = {
-  MINT: "MINT",
+  MINT: MINT_BUTTON_TEXT,
   MINT_SALE: "Mint for ",
   EXCEEDS: "Token exceeds limit",
-  TRANSACTION: "Confirm Transaction",
-  MINTING: "Minting...",
+  TRANSACTION: "Please Approve Claim",
+  MINTING: "Claiming",
   SOLD_OUT: "Sold Out",
   PRESALE_NOT_ALLOWED: "Not Allowed to Buy",
   NO_SALE: "Coming Soon",
@@ -30,12 +37,29 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
   const [contract] = useContract(CONTRACT_ADDRESS, provider);
 
   const [maxPurchase, setMaxPurchase] = useState(10);
-  const [noOfTokens, setNoOfTokens] = useState(null);
+  const [noOfTokens, setNoOfTokens] = useState("1");
   const [disabledMintInput, setDisabledMintInput] = useState(false);
   const [saleType, setSaleType] = useState(0);
   const [price, setPrice] = useState("0");
   const [buttonText, setButtonText] = useState(BUTTON_TEXT.MINT);
   const [disabledMintButton, setDisabledMintButton] = useState(false);
+
+  const [balance, setBalance] = useState(0);
+
+  const auth = useAuth();
+
+  useEffect(() => {
+    const getBalance = async () => {
+      const balanceOfToken = await contract.callStatic.tokensMinted(user);
+
+      console.log({ balance: balanceOfToken.toString() });
+      setBalance(parseInt(balanceOfToken.toString()));
+    };
+
+    if (contract) {
+      getBalance();
+    }
+  }, [contract]);
 
   useEffect(() => {
     const getDetails = async () => {
@@ -59,6 +83,7 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
             setMaxPurchase(mPurchase);
           } else {
             setSaleType(0);
+            setDisabledMintButton(true);
           }
         }
       } catch (err) {
@@ -145,11 +170,6 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
         console.log({ task });
       }
       if (saleType === 2) {
-        // transaction = await contract
-        //   ?.connect(signer)
-        //   ?.buy(user, parseInt(noOfTokens), {
-        //     value: BigNumber.from(noOfTokens).mul(price),
-        //   });
         const { data } = await contract.populateTransaction.buy(
           user,
           parseInt(noOfTokens),
@@ -185,10 +205,11 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
           } else {
             if (taskStatus === "ExecSuccess") {
               confirmation = true;
+              setBalance(balance + 1);
               resetMint();
               toast(
                 `🎉 Succesfully minted ${noOfTokens} Token${
-                  noOfTokens > 1 ? "s" : ""
+                  parseInt(noOfTokens) > 1 ? "s" : ""
                 }!//${taskStatus.transactionHash}`
               );
             } else if (taskStatus === "Cancelled") {
@@ -215,7 +236,7 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
 
   return (
     <Box className="mint-container" position="relative">
-      <If
+      {/* <If
         condition={saleType > 0}
         then={
           <Box className="mint-input-bg">
@@ -245,9 +266,9 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
             />
           </Box>
         }
-      />
+      /> */}
       <If
-        condition={saleType > 0 && noOfTokens > 0}
+        condition={saleType > 0 && parseInt(noOfTokens) > 0}
         then={
           <Box
             className="total-info"
@@ -267,7 +288,7 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
                         BigNumber.from(noOfTokens).mul(price).toString()
                       )
                     : ""
-                } ETH`}</Box>
+                } ${getNetwork().unit}`}</Box>
               }
               else={
                 <Box as="h2" fontSize="1.2rem" className="error" color="red">
@@ -278,16 +299,33 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
           </Box>
         }
       />
-      <Box
-        as="button"
-        backgroundColor={BUTTON_COLOR}
-        color={BUTTON_TEXT_COLOR}
-        className="mint-btn"
-        onClick={handleMint}
-        disabled={disabledMintButton}
-      >
-        {buttonText}
-      </Box>
+      <If
+        condition={balance > 0}
+        then={
+          <a href="">
+            <Box
+              as="button"
+              backgroundColor={BUTTON_COLOR}
+              color={BUTTON_TEXT_COLOR}
+              className="mint-btn"
+            >
+              View your Merch
+            </Box>
+          </a>
+        }
+        else={
+          <Box
+            as="button"
+            backgroundColor={BUTTON_COLOR}
+            color={BUTTON_TEXT_COLOR}
+            className="mint-btn"
+            onClick={handleMint}
+            disabled={disabledMintButton}
+          >
+            {buttonText}
+          </Box>
+        }
+      />
     </Box>
   );
 };
