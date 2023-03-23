@@ -74,6 +74,36 @@ const ArcanaHome = () => {
 
   const auth = useAuth();
 
+  const handleConnect = async (e) => {
+    e.preventDefault();
+    setLoggingIn(true);
+    const arcanaProvider = await auth.loginWithSocial("google");
+    const provider = new ethers.providers.Web3Provider(arcanaProvider);
+    const signer = provider.getSigner();
+    setSigner(signer);
+    setProvider(provider);
+  };
+
+  useEffect(() => {
+    if (signer) {
+      signer.getAddress().then((user) => setUser(user));
+    }
+  }, [signer]);
+
+  useEffect(() => {
+    if (user) {
+      setLoggingIn(false);
+      setConnected(true);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!auth.loading) {
+      auth.logout();
+      setReady(true);
+    }
+  }, [auth.loading]);
+
   useEffect(() => {
     const getSupply = async () => {
       try {
@@ -105,36 +135,6 @@ const ArcanaHome = () => {
       }
     }
   }, [contract]);
-
-  const handleConnect = async (e) => {
-    e.preventDefault();
-    setLoggingIn(true);
-    const arcanaProvider = await auth.loginWithSocial("google");
-    const provider = new ethers.providers.Web3Provider(arcanaProvider);
-    const signer = provider.getSigner();
-    setSigner(signer);
-    setProvider(provider);
-  };
-
-  useEffect(() => {
-    if (signer) {
-      signer.getAddress().then((user) => setUser(user));
-    }
-  }, [signer]);
-
-  useEffect(() => {
-    if (user) {
-      setLoggingIn(false);
-      setConnected(true);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (!auth.loading) {
-      auth.logout();
-      setReady(true);
-    }
-  }, [auth.loading]);
 
   if (!ready) {
     return (
