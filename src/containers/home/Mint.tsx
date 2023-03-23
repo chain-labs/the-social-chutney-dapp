@@ -2,7 +2,7 @@ import { BigNumber, ethers } from "ethers";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import If from "../../components/If";
-import { CONTRACT_ADDRESS } from "../../constants";
+import { CONTRACT_ADDRESS, GELATO_API_KEY, getChain } from "../../constants";
 import useContract from "../../hooks/useContract";
 import {
   BUTTON_COLOR,
@@ -11,6 +11,8 @@ import {
   TEXT_COLOR,
 } from "../../settings/constants";
 import Box from "../../components/Box";
+import { GelatoRelay, SponsoredCallRequest } from "@gelatonetwork/relay-sdk";
+import { delay, getRelayStatus } from "../arcanaHome/utils";
 
 const BUTTON_TEXT = {
   MINT: "MINT",
@@ -24,6 +26,7 @@ const BUTTON_TEXT = {
 };
 
 const Mint = ({ provider, signer, user, incrementSupply }) => {
+  const relay = new GelatoRelay();
   const [contract] = useContract(CONTRACT_ADDRESS, provider);
 
   const [maxPurchase, setMaxPurchase] = useState(10);
@@ -117,37 +120,86 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
     setDisabledMintButton(true);
     setDisabledMintInput(true);
     try {
-      let transaction;
+      let task;
       if (saleType === 1) {
-        transaction = await contract
-          ?.connect(signer)
-          ?.presaleBuy([], user, parseInt(noOfTokens), {
+        const { data } = await contract.populateTransaction.presaleBuy(
+          [],
+          user,
+          parseInt(noOfTokens),
+          {
             value: BigNumber.from(noOfTokens).mul(price),
-          });
+          }
+        );
+        const request = {
+          chainId: getChain(),
+          target: CONTRACT_ADDRESS,
+          data: data,
+          user: user,
+        };
+
+        task = await relay.sponsoredCallERC2771(
+          request,
+          provider,
+          GELATO_API_KEY
+        );
+        console.log({ task });
       }
       if (saleType === 2) {
-        transaction = await contract
-          ?.connect(signer)
-          ?.buy(user, parseInt(noOfTokens), {
+        // transaction = await contract
+        //   ?.connect(signer)
+        //   ?.buy(user, parseInt(noOfTokens), {
+        //     value: BigNumber.from(noOfTokens).mul(price),
+        //   });
+        const { data } = await contract.populateTransaction.buy(
+          user,
+          parseInt(noOfTokens),
+          {
             value: BigNumber.from(noOfTokens).mul(price),
-          });
+          }
+        );
+        const request = {
+          chainId: getChain(),
+          target: CONTRACT_ADDRESS,
+          data: data,
+          user: user,
+        };
+
+        task = await relay.sponsoredCallERC2771(
+          request,
+          provider,
+          GELATO_API_KEY
+        );
+        console.log({ task });
       }
+
       setButtonText(BUTTON_TEXT.MINTING);
-      transaction
-        .wait()
-        .then((tx: any) => {
-          incrementSupply(parseInt(noOfTokens));
-          resetMint();
-          toast(
-            `🎉 Succesfully minted ${noOfTokens} Token${
-              noOfTokens > 1 ? "s" : ""
-            }!//${tx.transactionHash}`
-          );
-        })
-        .catch((err: any, tx: any) => {
-          resetMint();
-          toast(`❌ Something went wrong! Please Try Again`);
+
+      let confirmation = false;
+
+      while (!confirmation) {
+        getRelayStatus(task.taskId).then((task) => {
+          console.log({ task });
+          const taskStatus = task?.taskState;
+          if (taskStatus === "CheckPending") {
+            confirmation = false;
+          } else {
+            if (taskStatus === "ExecSuccess") {
+              confirmation = true;
+              resetMint();
+              toast(
+                `🎉 Succesfully minted ${noOfTokens} Token${
+                  noOfTokens > 1 ? "s" : ""
+                }!//${taskStatus.transactionHash}`
+              );
+            } else if (taskStatus === "Cancelled") {
+              resetMint();
+              toast.error("Transaction Failed! Try Again!");
+              confirmation = true;
+            }
+          }
         });
+        await delay(2000);
+      }
     } catch (err) {
       console.log({ err });
       if (err.message.includes("out of buying limit")) {

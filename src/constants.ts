@@ -1,3 +1,5 @@
+import { CHAIN } from "@arcana/auth";
+
 export const boolify = (x: string) => {
   if (x.toLowerCase() === "true") return true;
   else return false;
@@ -8,16 +10,33 @@ export const CONTRACT_ADDRESS = `${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`;
 export const CHAIN_NETWORK = process.env.NEXT_PUBLIC_CHAIN_NETWORK;
 export const TEST_NETWORK = boolify(`${process.env.NEXT_PUBLIC_TEST_NETWORK}`);
 
-export const getNetwork = () => {
-  switch (CHAIN_NETWORK) {
-    case "eth":
-      return TEST_NETWORK ? "goerli" : "mainnet";
-    case "polygon":
-      return TEST_NETWORK ? "mumbai" : "polygon";
+export const getNetwork = (): {
+  chainIdHex: CHAIN;
+  chainId: string;
+  blockExplorer: string;
+  unit: string;
+  name: string;
+} => {
+  if (TEST_NETWORK) {
+    return {
+      name: "mumbai",
+      chainIdHex: CHAIN.POLYGON_MUMBAI_TESTNET,
+      chainId: "80001",
+      blockExplorer: "https://mumbai.polygonscan.com/",
+      unit: "MATIC",
+    };
+  } else {
+    return {
+      name: "matic",
+      chainIdHex: CHAIN.POLYGON_MAINNET,
+      chainId: "137",
+      blockExplorer: "https://polygonscan.com/",
+      unit: "MATIC",
+    };
   }
 };
 
-export const NETWORK: string = getNetwork();
+export const NETWORK: string = getNetwork().name;
 
 export const getChain = () => {
   switch (NETWORK) {
@@ -51,3 +70,5 @@ export const SIMPLR_URL = "https://simplrhq.com";
 
 export const SALE_PAUSED = process.env.NEXT_PUBLIC_SALE_PAUSED === "true";
 export const MAX_TOKENS = `${process.env.NEXT_PUBLIC_MAX_TOKENS}`;
+
+export const GELATO_API_KEY = process.env.NEXT_PUBLIC_GELATO_API_KEY;

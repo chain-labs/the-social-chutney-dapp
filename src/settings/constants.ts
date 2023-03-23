@@ -5,7 +5,7 @@ export const BUTTON_TEXT_COLOR = BACKGROUND_COLOR;
 export const TOKEN_COUNTER_COLOR = "#EB48EB";
 export const INPUT_BORDER_COLOR = TEXT_COLOR;
 
-export const COLLECTION_NAME = "Aviothic";
+export const COLLECTION_NAME = "Flea Marketplace";
 
 export const SHOW_TOKENS_CLAIMED = true;
 export const SHOW_TOTAL_TOKENS = false;
