@@ -35,6 +35,7 @@ import {
   HERO_MEDIA,
   INSTAGRAM_URL,
   LOGO_MEDIA,
+  LOGO_MEDIA_2,
   SHOW_TOKENS_CLAIMED,
   SHOW_TOTAL_TOKENS,
   TELEGRAM_URL,
@@ -45,7 +46,7 @@ import {
 } from "../../settings/constants";
 import If from "../../components/If";
 import { ethers, providers } from "ethers";
-import Mint from "../home/Mint";
+import Mint from "./Mint";
 import Confetti from "react-confetti";
 
 const condense = (text: string) => {
@@ -172,7 +173,6 @@ const ArcanaHome = () => {
         backgroundColor={BACKGROUND_COLOR}
         height="100vh"
         width="100vw"
-        pt="4rem"
         position="relative"
       >
         <Box
@@ -181,22 +181,46 @@ const ArcanaHome = () => {
           display="flex"
           justifyContent="space-between"
           className="navbar"
+          alignItems="center"
         >
           <Box className="logo-cont">
-            <a href={COLLECTION_WEBSITE} rel="noreferrer">
+            <a
+              href={COLLECTION_WEBSITE}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center"
+            >
               <Box
                 position="relative"
-                width="32.8rem"
-                height="5rem"
+                width="200px"
+                height="128px"
                 css={`
                   @media screen and (max-width: 768px) {
-                    height: 24px;
-                    width: 50vw;
+                    height: 69px;
+                    width: 100px;
                   }
                 `}
               >
                 <Image
                   src={LOGO_MEDIA}
+                  alt="logo"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </Box>
+              <Box
+                position="relative"
+                width="133px"
+                height="69px"
+                css={`
+                  @media screen and (max-width: 768px) {
+                    height: 34.5px;
+                    width: 66.5px;
+                  }
+                `}
+              >
+                <Image
+                  src={LOGO_MEDIA_2}
                   alt="logo"
                   layout="fill"
                   objectFit="cover"
@@ -208,7 +232,7 @@ const ArcanaHome = () => {
             display="flex"
             flex={1}
             flexDirection="row"
-            justifyContent="space-evenly"
+            justifyContent="flex-end"
             css={`
               @media screen and (max-width: 768px) {
                 width: 150px;
@@ -222,7 +246,7 @@ const ArcanaHome = () => {
               href={getEtherscanUrl()}
               rel="noreferrer"
               target="_blank"
-              className="icon"
+              className="icon px-2 md:px-8"
               color={TEXT_COLOR}
               display="flex"
               justifyContent="center"
@@ -236,7 +260,7 @@ const ArcanaHome = () => {
                   href={TWITTER_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="icon"
+                  className="px-2 md:px-8 icon"
                 >
                   <TwitterFill color={TEXT_COLOR} size={48} />
                 </a>
@@ -250,7 +274,7 @@ const ArcanaHome = () => {
                   href={DISCORD_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="icon"
+                  className="icon px-2 md:px-8"
                 >
                   <DiscordFill color={TEXT_COLOR} size={48} />
                 </Box>
@@ -264,7 +288,7 @@ const ArcanaHome = () => {
                   href={INSTAGRAM_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="icon"
+                  className="icon px-2 md:px-8"
                 >
                   <InstagramFill color={TEXT_COLOR} size={48} />
                 </Box>
@@ -278,7 +302,7 @@ const ArcanaHome = () => {
                   href={TELEGRAM_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="icon"
+                  className="icon px-2"
                 >
                   <TelegramFill color={TEXT_COLOR} size={48} />
                 </Box>
@@ -314,6 +338,7 @@ const ArcanaHome = () => {
               as="h3"
               id="counter"
               fontSize="1.8rem"
+              fontWeight="800"
               color={TOKEN_COUNTER_COLOR}
             >
               {`${totalSupply} members have claimed ${TOKEN_NAME}`}

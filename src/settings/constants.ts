@@ -1,11 +1,11 @@
-export const BACKGROUND_COLOR = "#fafafa";
-export const BUTTON_COLOR = "#eb164d";
-export const TEXT_COLOR = "#0c0c0c";
+export const BACKGROUND_COLOR = "#683095";
+export const BUTTON_COLOR = "#ffd031";
+export const TEXT_COLOR = "#ddd";
 export const BUTTON_TEXT_COLOR = BACKGROUND_COLOR;
-export const TOKEN_COUNTER_COLOR = "#EB48EB";
+export const TOKEN_COUNTER_COLOR = "#db3e77";
 export const INPUT_BORDER_COLOR = TEXT_COLOR;
 
-export const COLLECTION_NAME = "Flea Marketplace";
+export const COLLECTION_NAME = "The Social Chutney";
 
 export const MINT_BUTTON_TEXT = "Claim Merch";
 
@@ -15,17 +15,19 @@ export const SHOW_TOKENS_CLAIMED = true;
 export const SHOW_TOTAL_TOKENS = false;
 
 export const HERO_MEDIA =
-  "https://ik.imagekit.io/chainlabs/Mint_Pages/Photograph_NFT/hero_image_3cJoz7tCbC.jpeg?ik-sdk-version=javascript-1.4.3&updatedAt=1675256707102";
+  "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/tsc_73NFIGGmP.png?updatedAt=1679609358699";
 export const LOGO_MEDIA =
-  "https://ik.imagekit.io/chainlabs/Mint_Pages/Photograph_NFT/logo_l-vc-czMqW.png?ik-sdk-version=javascript-1.4.3&updatedAt=1675256364170";
-export const COLLECTION_WEBSITE = "";
+  "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/Tsc_logo_2_WPyFBNwug.png?updatedAt=1679597931525";
+export const LOGO_MEDIA_2 =
+  "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/Asset_21Web_3_RAfX0IcCg.png?updatedAt=1679597945634";
+export const COLLECTION_WEBSITE = "https://thesocialchutney.com";
 export const FAVICON_URL =
-  "https://ik.imagekit.io/chainlabs/Mint_Pages/Photograph_NFT/logo_l-vc-czMqW.png?ik-sdk-version=javascript-1.4.3&updatedAt=1675256364170";
-export const WEBSITE_TITLE = "Aviothic | Mint here";
+  "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/Tsc_logo_2_WPyFBNwug.png?updatedAt=1679597931525";
+export const WEBSITE_TITLE = "The Social Chutney | Claim your Merch";
 
-export const TWITTER_URL = "https://twitter.com/TheFadinSoul";
+export const TWITTER_URL = "";
 export const DISCORD_URL = "";
-export const INSTAGRAM_URL = "https://www.instagram.com/the_fading_soul/";
-export const TELEGRAM_URL = "https://t.me/web3forturkey";
+export const INSTAGRAM_URL = "https://instagram.com/thesocialchutney_";
+export const TELEGRAM_URL = "";
 
 export const COLLECTION_TYPE = process.env.NEXT_PUBLIC_COLLECTION_TYPE;

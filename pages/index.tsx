@@ -21,7 +21,7 @@ const PROVIDER = new AuthProvider(`${ARCANA_APP_ADDRESS}`, {
 const Home: NextPage = () => {
   return (
     <ProvideAuth provider={PROVIDER}>
-      <ArcanaHome />;
+      <ArcanaHome />
     </ProvideAuth>
   );
 };

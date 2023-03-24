@@ -47,8 +47,8 @@
 .container {
   min-height: 100vh;
   min-width: 100vw;
-  padding-top: 40px;
   position: relative;
+
 
   * {
     z-index: 5;
@@ -86,21 +86,21 @@
 
   .icon-box {
     animation: fadeIn 0.5s 1.5s backwards ease-out;
-    justify-content: space-evenly;
+    justify-content: flex-end;
 
     .icon {
       svg {
         height: 48px;
         width: 48px;
         @media screen and (max-width: 768px) {
-          height: 24px;
-          width: 24px
+          height: 32px;
+          width: 32px
         }
       }
       img {
         height: 24px;
         @media screen and (max-width: 768px) {
-          height: 24px;
+          height: 32px;
         }
       }
     }
@@ -178,6 +178,9 @@
       @extend .btn;
       padding: 17.5px 64px;
       margin-top: 24px;
+      @media screen and (max-width: 768px) {
+        padding: 12px 32px;
+      }
 
       
       animation: fadeInButton 0.5s 1.2s backwards ease-out;
