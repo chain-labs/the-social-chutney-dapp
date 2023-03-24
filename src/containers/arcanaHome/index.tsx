@@ -46,6 +46,7 @@ import {
 import If from "../../components/If";
 import { ethers, providers } from "ethers";
 import Mint from "../home/Mint";
+import Confetti from "react-confetti";
 
 const condense = (text: string) => {
   return `${text?.substring(0, 5)}...${text?.substring(text.length - 5)}`;
@@ -73,6 +74,7 @@ const ArcanaHome = () => {
   const [contract] = useContract(CONTRACT_ADDRESS, provider);
 
   const [ready, setReady] = useState(false);
+  const [confetti, setConfetti] = useState(false);
 
   const auth = useAuth();
 
@@ -152,6 +154,19 @@ const ArcanaHome = () => {
 
   return (
     <ProvideAuth provider={PROVIDER}>
+      <If
+        condition={confetti}
+        then={
+          <Confetti
+            className="confetti"
+            numberOfPieces={200}
+            width={window.innerWidth}
+            height={window.innerHeight}
+            initialVelocityY={-10}
+            gravity={0.01}
+          />
+        }
+      />
       <Box
         className="container"
         backgroundColor={BACKGROUND_COLOR}
@@ -335,6 +350,7 @@ const ArcanaHome = () => {
                 signer={signer}
                 user={user}
                 incrementSupply={incrementSupply}
+                setConfetti={setConfetti}
               />
               <Box
                 as="h3"
@@ -349,18 +365,14 @@ const ArcanaHome = () => {
               >
                 Connected to:{" "}
                 <Box as="span" className="address" color={BUTTON_COLOR}>
-                  {condense(user)}
+                  {auth.user.email}
                 </Box>
               </Box>
             </Box>
           )}
         </Box>
         <div className="simplr">
-          <a
-            href="https://simplrcollection.com"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href="https://simplrhq.com" target="_blank" rel="noreferrer">
             <Image
               src="/simplr_brand.svg"
               height={41}

@@ -8,6 +8,9 @@ import { ThemeProvider } from "styled-components";
 import theme from "../src/styleguide/theme";
 import Head from "next/head";
 import { FAVICON_URL, WEBSITE_TITLE } from "../src/settings/constants";
+import { withUrqlClient } from "next-urql";
+import { cacheExchange, dedupExchange, fetchExchange } from "urql";
+import { SUBGRAPH_ENDPOINT } from "../src/constants";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -24,4 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default withUrqlClient((_ssrExchange, ctx) => ({
+  url: SUBGRAPH_ENDPOINT,
+  exchanges: [dedupExchange, cacheExchange, fetchExchange],
+}))(MyApp);

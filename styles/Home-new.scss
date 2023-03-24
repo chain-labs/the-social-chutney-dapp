@@ -40,6 +40,10 @@
   }
 }
 
+.confetti {
+  z-index: 1000 !important;
+}
+
 .container {
   min-height: 100vh;
   min-width: 100vw;

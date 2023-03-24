@@ -6,6 +6,7 @@ export const boolify = (x: string) => {
 };
 
 export const CONTRACT_ADDRESS = `${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`;
+export const SUBGRAPH_ENDPOINT = process.env.NEXT_PUBLIC_SUBGRAPH_ENDPOINT;
 
 export const CHAIN_NETWORK = process.env.NEXT_PUBLIC_CHAIN_NETWORK;
 export const TEST_NETWORK = boolify(`${process.env.NEXT_PUBLIC_TEST_NETWORK}`);
@@ -18,21 +19,39 @@ export const getNetwork = (): {
   name: string;
 } => {
   if (TEST_NETWORK) {
-    return {
-      name: "mumbai",
-      chainIdHex: CHAIN.POLYGON_MUMBAI_TESTNET,
-      chainId: "80001",
-      blockExplorer: "https://mumbai.polygonscan.com/",
-      unit: "MATIC",
-    };
+    if (CHAIN_NETWORK === "polygon")
+      return {
+        name: "mumbai",
+        chainIdHex: CHAIN.POLYGON_MUMBAI_TESTNET,
+        chainId: "80001",
+        blockExplorer: "https://mumbai.polygonscan.com/",
+        unit: "MATIC",
+      };
+    else
+      return {
+        name: "goerli",
+        chainIdHex: CHAIN.ETHEREUM_GOERLI,
+        chainId: "5",
+        blockExplorer: "https://goerli.etherscan.io/",
+        unit: "ETH",
+      };
   } else {
-    return {
-      name: "matic",
-      chainIdHex: CHAIN.POLYGON_MAINNET,
-      chainId: "137",
-      blockExplorer: "https://polygonscan.com/",
-      unit: "MATIC",
-    };
+    if (CHAIN_NETWORK === "polygon")
+      return {
+        name: "matic",
+        chainIdHex: CHAIN.POLYGON_MAINNET,
+        chainId: "137",
+        blockExplorer: "https://polygonscan.com/",
+        unit: "MATIC",
+      };
+    else
+      return {
+        name: "mainnet",
+        chainIdHex: CHAIN.ETHEREUM_MAINNET,
+        chainId: "1",
+        blockExplorer: "https://etherscan.io/",
+        unit: "ETH",
+      };
   }
 };
 

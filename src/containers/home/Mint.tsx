@@ -20,21 +20,24 @@ import {
 } from "../../settings/constants";
 import Box from "../../components/Box";
 import { GelatoRelay, SponsoredCallRequest } from "@gelatonetwork/relay-sdk";
-import { delay, getRelayStatus } from "../arcanaHome/utils";
+import { delay, getOpenseaUrl, getRelayStatus } from "../arcanaHome/utils";
 import { useAuth } from "@arcana/auth-react";
+import { useQuery } from "urql";
+import TokenQuery from "../../graphql/GetUserTokens";
 
 const BUTTON_TEXT = {
   MINT: MINT_BUTTON_TEXT,
   MINT_SALE: "Mint for ",
   EXCEEDS: "Token exceeds limit",
   TRANSACTION: "Please Approve Claim",
-  MINTING: "Claiming",
+  MINTING: "Sit Tight! Almost Done..",
   SOLD_OUT: "Sold Out",
   PRESALE_NOT_ALLOWED: "Not Allowed to Buy",
   NO_SALE: "Coming Soon",
+  CLAIMED: "Fetching your Merch...",
 };
 
-const Mint = ({ provider, signer, user, incrementSupply }) => {
+const Mint = ({ provider, signer, user, incrementSupply, setConfetti }) => {
   const relay = new GelatoRelay();
   const [contract] = useContract(CONTRACT_ADDRESS, provider);
 
@@ -45,23 +48,33 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
   const [price, setPrice] = useState("0");
   const [buttonText, setButtonText] = useState(BUTTON_TEXT.MINT);
   const [disabledMintButton, setDisabledMintButton] = useState(false);
+  const [claimed, setClaimed] = useState(false);
 
-  const [balance, setBalance] = useState(0);
-
+  const [tokenId, setTokenId] = useState("");
   const auth = useAuth();
 
+  const [result, reexecuteQuery] = useQuery({
+    query: TokenQuery,
+    variables: {
+      id: auth.user.address.toLowerCase(),
+      address: CONTRACT_ADDRESS,
+    },
+    requestPolicy: 'network-only'
+  });
+
   useEffect(() => {
-    const getBalance = async () => {
-      const balanceOfToken = await contract.callStatic.tokensMinted(user);
-
-      console.log({ balance: balanceOfToken.toString() });
-      setBalance(parseInt(balanceOfToken.toString()));
-    };
-
-    if (contract) {
-      getBalance();
+    if (!result.fetching) {
+      const tokenId = result.data?.users?.[0]?.minted?.[0]?.tokenId;
+      console.log({ tokenId });
+      if (tokenId) {
+        setTokenId(tokenId);
+      } else {
+        delay(1500).then(() => {
+          reexecuteQuery({ requestPolicy: "network-only" });
+        });
+      }
     }
-  }, [contract]);
+  }, [result, reexecuteQuery]);
 
   useEffect(() => {
     const getDetails = async () => {
@@ -207,8 +220,10 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
           } else {
             if (taskStatus === "ExecSuccess") {
               confirmation = true;
-              setBalance(balance + 1);
-              resetMint();
+              setConfetti(true);
+              setButtonText(BUTTON_TEXT.CLAIMED);
+              setDisabledMintButton(true);
+              setClaimed(true);
               toast(
                 `🎉 Succesfully claimed ${noOfTokens} ${TOKEN_NAME}${
                   parseInt(noOfTokens) > 1 ? "s" : ""
@@ -302,13 +317,9 @@ const Mint = ({ provider, signer, user, incrementSupply }) => {
         }
       />
       <If
-        condition={balance > 0}
+        condition={!!tokenId}
         then={
-          <a
-            href={`https://${TEST_NETWORK ? "testnets." : ""}opensea.io/${user}`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={getOpenseaUrl(tokenId)} target="_blank" rel="noreferrer">
             <Box
               as="button"
               backgroundColor={BUTTON_COLOR}
