@@ -37,7 +37,14 @@ const BUTTON_TEXT = {
   CLAIMED: "Fetching your Merch...",
 };
 
-const Mint = ({ provider, signer, user, incrementSupply, setConfetti }) => {
+const Mint = ({
+  provider,
+  signer,
+  user,
+  incrementSupply,
+  setConfetti,
+  setShowPopup,
+}) => {
   const relay = new GelatoRelay();
   const [contract] = useContract(CONTRACT_ADDRESS, provider);
 
@@ -56,10 +63,10 @@ const Mint = ({ provider, signer, user, incrementSupply, setConfetti }) => {
   const [result, reexecuteQuery] = useQuery({
     query: TokenQuery,
     variables: {
-      id: auth.user.address.toLowerCase(),
+      id: auth?.user?.address?.toLowerCase(),
       address: CONTRACT_ADDRESS,
     },
-    requestPolicy: 'network-only'
+    requestPolicy: "network-only",
   });
 
   useEffect(() => {
@@ -221,6 +228,7 @@ const Mint = ({ provider, signer, user, incrementSupply, setConfetti }) => {
             if (taskStatus === "ExecSuccess") {
               confirmation = true;
               setConfetti(true);
+              setShowPopup(true);
               setButtonText(BUTTON_TEXT.CLAIMED);
               setDisabledMintButton(true);
               setClaimed(true);

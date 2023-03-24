@@ -23,6 +23,10 @@ export const LOGO_MEDIA_2 =
 export const COLLECTION_WEBSITE = "https://thesocialchutney.com";
 export const FAVICON_URL =
   "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/Tsc_logo_2_WPyFBNwug.png?updatedAt=1679597931525";
+
+export const TOKEN_IMG_URI =
+  "https://nftstorage.link/ipfs/bafybeib372rvcuty5rh3cxgw2kienhzwcjj2wiei5t7elrzbrqapfd5hca";
+
 export const WEBSITE_TITLE = "The Social Chutney | Claim your Merch";
 
 export const TWITTER_URL = "";

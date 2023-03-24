@@ -13,6 +13,7 @@ import { ARCANA_APP_ADDRESS } from "./constants";
 
 import EtherscanFill from "../../../public/etherscan.svg";
 import {
+  CircleX,
   Cross,
   DiscordFill,
   GoogleFill,
@@ -41,6 +42,7 @@ import {
   TELEGRAM_URL,
   TEXT_COLOR,
   TOKEN_COUNTER_COLOR,
+  TOKEN_IMG_URI,
   TOKEN_NAME,
   TWITTER_URL,
 } from "../../settings/constants";
@@ -48,6 +50,7 @@ import If from "../../components/If";
 import { ethers, providers } from "ethers";
 import Mint from "./Mint";
 import Confetti from "react-confetti";
+import { delay, getOpenseaUrl } from "./utils";
 
 const condense = (text: string) => {
   return `${text?.substring(0, 5)}...${text?.substring(text.length - 5)}`;
@@ -73,9 +76,11 @@ const ArcanaHome = () => {
   const [totalSupply, setTotalSupply] = useState<number>();
   const [maximumTokens, setMaximumTokens] = useState<number>();
   const [contract] = useContract(CONTRACT_ADDRESS, provider);
+  const [showPopup, setShowPopup] = useState(false);
 
   const [ready, setReady] = useState(false);
   const [confetti, setConfetti] = useState(false);
+  const [confettiPieces, setConfettiPieces] = useState(200);
 
   const auth = useAuth();
 
@@ -141,6 +146,16 @@ const ArcanaHome = () => {
     }
   }, [contract]);
 
+  useEffect(() => {
+    if (confetti)
+      if (confettiPieces > 0) {
+        console.log({ confettiPieces });
+        delay(1000).then(() => {
+          setConfettiPieces(confettiPieces - 10);
+        });
+      }
+  }, [confettiPieces, confetti]);
+
   if (!ready) {
     return (
       <div className="h-screen w-screen flex justify-center items-center text-5xl font-medium">
@@ -160,14 +175,15 @@ const ArcanaHome = () => {
         then={
           <Confetti
             className="confetti"
-            numberOfPieces={200}
+            numberOfPieces={confettiPieces}
             width={window.innerWidth}
             height={window.innerHeight}
-            initialVelocityY={-10}
+            initialVelocityY={-5}
             gravity={0.01}
           />
         }
       />
+      <If condition={showPopup} then={<Popup setShowPopup={setShowPopup} />} />
       <Box
         className="container"
         backgroundColor={BACKGROUND_COLOR}
@@ -376,11 +392,12 @@ const ArcanaHome = () => {
                 user={user}
                 incrementSupply={incrementSupply}
                 setConfetti={setConfetti}
+                setShowPopup={setShowPopup}
               />
               <Box
                 as="h3"
                 className="user-address"
-                fontSize="2rem"
+                fontSize={{ mobS: "1.6rem", tabS: "2rem" }}
                 color={TEXT_COLOR}
                 fontWeight={400}
                 lineHeight="120%"
@@ -390,7 +407,7 @@ const ArcanaHome = () => {
               >
                 Connected to:{" "}
                 <Box as="span" className="address" color={BUTTON_COLOR}>
-                  {auth.user.email}
+                  {auth?.user?.email}
                 </Box>
               </Box>
             </Box>
@@ -412,3 +429,57 @@ const ArcanaHome = () => {
 };
 
 export default ArcanaHome;
+
+const Popup = ({ setShowPopup }) => {
+  return (
+    <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+      <div className="relative p-4 w-full max-w-2xl h-full md:h-auto mt-40">
+        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="flex justify-between items-start p-5 rounded-t border-b dark:border-gray-600">
+            <h3 className="text-2xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
+              Your {TOKEN_NAME}
+            </h3>
+            <button
+              type="button"
+              onClick={() => setShowPopup(false)}
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            >
+              <CircleX size={12} />
+            </button>
+          </div>
+          <div className="p-6 space-y-6 flex justify-center">
+            <Box
+              className="relative rounded-lg overflow-hidden"
+              height="30rem"
+              width="30rem"
+            >
+              <Image
+                src={TOKEN_IMG_URI}
+                layout="fill"
+                objectFit="contain"
+                alt="token_img"
+              />
+            </Box>
+          </div>
+          <div className="flex items-center justify-end p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+            {/* <a href={getOpenseaUrl()}>
+            <button
+              type="button"
+              className={`text-black font-bold text-xl bg-[#43a2ff]  rounded-lg px-5 py-2.5 mr-2 text-center inline-flex items-center hover:scale-[1.02] transition-transform`}
+              >
+              View on Opensea
+            </button>
+              </a> */}
+            <button
+              type="button"
+              onClick={() => setShowPopup(false)}
+              className={`text-black font-bold text-xl bg-[#FFD031] rounded-lg px-5 py-2.5 mr-2 text-center inline-flex items-center hover:scale-[1.02] transition-transform`}
+            >
+              Go back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
