@@ -6,10 +6,10 @@ export const TOKEN_COUNTER_COLOR = "#db3e77";
 export const INPUT_BORDER_COLOR = TEXT_COLOR;
 
 export const COLLECTION_NAME =
-  "Rajput Rebellion: Reclaiming Jodhpur from Mughals";
+  "Clock Tower of Jodhpur";
 
 export const COLLECTION_DESCRIPTION = [
-  "The battle to reclaim Jodhpur! Generated using AI.",
+  "The construction of the famous Ghanta Ghar, during the reign of Maharaja Sardar Singh. Generated using AI.",
 ];
 
 export const MINT_BUTTON_TEXT = "Claim Piece";
@@ -20,7 +20,7 @@ export const SHOW_TOKENS_CLAIMED = true;
 export const SHOW_TOTAL_TOKENS = false;
 
 export const HERO_MEDIA =
-  "https://ik.imagekit.io/xlvg9oc4k/jodhpur_main_3_tsc.png?updatedAt=1679688251050";
+  "https://ik.imagekit.io/xlvg9oc4k/jodhpur_main_2_tsc.png?updatedAt=1679688227322";
 export const LOGO_MEDIA =
   "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/Tsc_logo_2_WPyFBNwug.png?updatedAt=1679597931525";
 export const LOGO_MEDIA_2 =
