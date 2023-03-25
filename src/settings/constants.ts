@@ -5,11 +5,10 @@ export const BUTTON_TEXT_COLOR = BACKGROUND_COLOR;
 export const TOKEN_COUNTER_COLOR = "#db3e77";
 export const INPUT_BORDER_COLOR = TEXT_COLOR;
 
-export const COLLECTION_NAME =
-  "Clock Tower of Jodhpur";
+export const COLLECTION_NAME = "Umaid Bhavan Palace built during British Raj";
 
 export const COLLECTION_DESCRIPTION = [
-  "The construction of the famous Ghanta Ghar, during the reign of Maharaja Sardar Singh. Generated using AI.",
+  "The palace of Hope. Umaid Bhavan Palace was structured to provide employment to over 3000+ people. A symbol of Hope, Empathy and Prosperity. Generated using AI.",
 ];
 
 export const MINT_BUTTON_TEXT = "Claim Piece";
@@ -20,7 +19,7 @@ export const SHOW_TOKENS_CLAIMED = true;
 export const SHOW_TOTAL_TOKENS = false;
 
 export const HERO_MEDIA =
-  "https://ik.imagekit.io/xlvg9oc4k/jodhpur_main_2_tsc.png?updatedAt=1679688227322";
+  "https://ik.imagekit.io/xlvg9oc4k/jodhpur_main_3_tsc.png?updatedAt=1679688251050";
 export const LOGO_MEDIA =
   "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/Tsc_logo_2_WPyFBNwug.png?updatedAt=1679597931525";
 export const LOGO_MEDIA_2 =
