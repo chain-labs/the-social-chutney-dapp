@@ -374,7 +374,7 @@ const ArcanaHome = () => {
               fontWeight="800"
               color={TOKEN_COUNTER_COLOR}
             >
-              {`${totalSupply} members have claimed ${TOKEN_NAME}`}
+              {`${totalSupply} members have claimed this ${TOKEN_NAME}`}
             </Box>
           ) : null}
         </Box>
