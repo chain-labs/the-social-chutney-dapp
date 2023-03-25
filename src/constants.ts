@@ -91,3 +91,5 @@ export const SALE_PAUSED = process.env.NEXT_PUBLIC_SALE_PAUSED === "true";
 export const MAX_TOKENS = `${process.env.NEXT_PUBLIC_MAX_TOKENS}`;
 
 export const GELATO_API_KEY = process.env.NEXT_PUBLIC_GELATO_API_KEY;
+
+export const SERVER_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_ENDPOINT;

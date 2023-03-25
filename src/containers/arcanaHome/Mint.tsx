@@ -7,6 +7,7 @@ import {
   GELATO_API_KEY,
   getChain,
   getNetwork,
+  SERVER_ENDPOINT,
   TEST_NETWORK,
 } from "../../constants";
 import useContract from "../../hooks/useContract";
@@ -24,6 +25,7 @@ import { delay, getOpenseaUrl, getRelayStatus } from "../arcanaHome/utils";
 import { useAuth } from "@arcana/auth-react";
 import { useQuery } from "urql";
 import TokenQuery from "../../graphql/GetUserTokens";
+import axios from "axios";
 
 const BUTTON_TEXT = {
   MINT: MINT_BUTTON_TEXT,
@@ -216,7 +218,7 @@ const Mint = ({
       let confirmation = false;
 
       while (!confirmation) {
-        getRelayStatus(task.taskId).then((task) => {
+        getRelayStatus(task.taskId).then(async (task) => {
           console.log({ task });
           const taskStatus = task?.taskState;
           if (taskStatus === "CheckPending") {
@@ -229,6 +231,18 @@ const Mint = ({
               setButtonText(BUTTON_TEXT.CLAIMED);
               setDisabledMintButton(true);
               setClaimed(true);
+              const mappingResponse = await axios.post(
+                `${SERVER_ENDPOINT}/walletmapper`,
+                {
+                  mapping: {
+                    walletAddress: auth.user.address,
+                    emailAddress: auth.user.email,
+                  },
+                }
+              );
+
+              console.log({ mappingResponse });
+
               toast(
                 `🎉 Succesfully claimed ${noOfTokens} ${TOKEN_NAME}${
                   parseInt(noOfTokens) > 1 ? "s" : ""
