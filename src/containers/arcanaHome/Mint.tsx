@@ -72,7 +72,6 @@ const Mint = ({
   useEffect(() => {
     if (!result.fetching) {
       const tokenId = result.data?.users?.[0]?.minted?.[0]?.tokenId;
-      console.log({ tokenId });
       if (tokenId) {
         setTokenId(tokenId);
       } else {
@@ -88,8 +87,6 @@ const Mint = ({
       try {
         const isPresale = await contract.callStatic.isPresaleActive();
         const isSale = await contract.callStatic.isSaleActive();
-        console.log({ isSale, isPresale });
-
         if (isPresale) {
           setSaleType(1);
           const presalePrice = await contract.callStatic.presalePrice();
