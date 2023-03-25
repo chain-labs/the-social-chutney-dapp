@@ -20,7 +20,7 @@ export const SHOW_TOKENS_CLAIMED = true;
 export const SHOW_TOTAL_TOKENS = false;
 
 export const HERO_MEDIA =
-  "https://ik.imagekit.io/xlvg9oc4k/jodhpur_main_3_tsc.png?updatedAt=1679688251050";
+  "https://ik.imagekit.io/xlvg9oc4k/jodhpur_treasure_hunt_2_tsc.png?updatedAt=1679716191139";
 export const LOGO_MEDIA =
   "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/Tsc_logo_2_WPyFBNwug.png?updatedAt=1679597931525";
 export const LOGO_MEDIA_2 =
