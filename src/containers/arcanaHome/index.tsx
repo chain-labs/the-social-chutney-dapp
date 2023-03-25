@@ -347,11 +347,22 @@ const ArcanaHome = () => {
               objectFit="contain"
             />
           </Box>
-          <Box as="h1" id="hero-text" color={TEXT_COLOR}>
+          <Box
+            as="h1"
+            id="hero-text"
+            color={TEXT_COLOR}
+            className="leading-tight"
+          >
             {COLLECTION_NAME}
           </Box>
           {COLLECTION_DESCRIPTION.map((description) => (
-            <Box as="h5" id="desc-text" color={TEXT_COLOR} key={description[0]}>
+            <Box
+              as="h5"
+              id="desc-text"
+              color={TEXT_COLOR}
+              key={description[0]}
+              className="mt-20"
+            >
               {description}
             </Box>
           ))}
@@ -363,7 +374,7 @@ const ArcanaHome = () => {
               fontWeight="800"
               color={TOKEN_COUNTER_COLOR}
             >
-              {`${totalSupply} members have claimed ${TOKEN_NAME}`}
+              {`${totalSupply} members have claimed this ${TOKEN_NAME}`}
             </Box>
           ) : null}
         </Box>
