@@ -65,7 +65,7 @@ export const getChain = () => {
       return "1";
     case "mumbai":
       return "80001";
-    case "polygon":
+    case "matic":
       return "137";
   }
 };

@@ -30,6 +30,7 @@ import {
   BACKGROUND_COLOR,
   BUTTON_COLOR,
   BUTTON_TEXT_COLOR,
+  COLLECTION_DESCRIPTION,
   COLLECTION_NAME,
   COLLECTION_WEBSITE,
   DISCORD_URL,
@@ -349,6 +350,11 @@ const ArcanaHome = () => {
           <Box as="h1" id="hero-text" color={TEXT_COLOR}>
             {COLLECTION_NAME}
           </Box>
+          {COLLECTION_DESCRIPTION.map((description) => (
+            <Box as="h5" id="desc-text" color={TEXT_COLOR} key={description[0]}>
+              {description}
+            </Box>
+          ))}
           {connected && SHOW_TOKENS_CLAIMED ? (
             <Box
               as="h3"

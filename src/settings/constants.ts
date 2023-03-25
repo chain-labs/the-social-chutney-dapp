@@ -5,7 +5,11 @@ export const BUTTON_TEXT_COLOR = BACKGROUND_COLOR;
 export const TOKEN_COUNTER_COLOR = "#db3e77";
 export const INPUT_BORDER_COLOR = TEXT_COLOR;
 
-export const COLLECTION_NAME = "The Social Chutney";
+export const COLLECTION_NAME = "TSC Digital Merchandise";
+
+export const COLLECTION_DESCRIPTION = [
+  "The Social Chutney 3.0: A Unique Blend of Tradition and Technology. Claim to participate in Lucky Draw.",
+];
 
 export const MINT_BUTTON_TEXT = "Claim Merch";
 
@@ -15,7 +19,7 @@ export const SHOW_TOKENS_CLAIMED = true;
 export const SHOW_TOTAL_TOKENS = false;
 
 export const HERO_MEDIA =
-  "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/tsc_73NFIGGmP.png?updatedAt=1679609358699";
+  "https://ik.imagekit.io/xlvg9oc4k/jodhpur_main_1_tsc.png?updatedAt=1679688251434";
 export const LOGO_MEDIA =
   "https://ik.imagekit.io/chainlabs/Mint_Pages/The_Social_Chutney/Tsc_logo_2_WPyFBNwug.png?updatedAt=1679597931525";
 export const LOGO_MEDIA_2 =
